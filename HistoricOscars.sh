@@ -4,6 +4,7 @@ cont=2
 man=`wc -l < oscar_age_male.csv`
 woman=`wc -l < oscar_age_female.csv`
 
+
 echo "Històric d’Oscars"
 echo "------------------"
 echo "1.1 Mostrar històric d’Oscars a millor actor (alfabètic). "
