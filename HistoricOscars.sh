@@ -17,6 +17,7 @@ echo $man
 echo $woman
 
 case $i in 
+
 	1)	
 	echo "Edat	Actor		Any	Pelicula"
 	tail +2 oscar_age_male.csv | sort -k 4 >> aux
