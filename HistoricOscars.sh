@@ -1,8 +1,5 @@
 #!/bin/bash
 
-cont=2
-man=`wc -l < oscar_age_male.csv`
-woman=`wc -l < oscar_age_female.csv`
 
 
 echo "Històric d’Oscars"
@@ -13,8 +10,6 @@ echo "1.3 Mostrar històric d’Oscars (actors/actrius). "
 
 read i 
 
-echo $man
-echo $woman
 
 case $i in 
 
