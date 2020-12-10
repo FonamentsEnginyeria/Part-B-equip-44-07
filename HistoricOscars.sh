@@ -17,17 +17,26 @@ echo $man
 echo $woman
 
 case $i in 
-	case 1) until [$cont -ge $man]
-		do
-		sort k1 | oscar_age_male.csv >> aux
-		cat aux
-		done
+	1)	
+	echo "Edat	Actor		Any	Pelicula"
+	tail +2 oscar_age_male.csv | sort -k 4 >> aux
+	awk -F "\"*,\"*" '{print $4, $2, $3, $5}' aux
+	rm aux
 	
-	case 2)
+	2) 	
+	echo "Actriu		Any	Edat	Pelicula"
+	tail +2 oscar_age_female.csv | sort -k 3 >> aux
+	awk -F "\"*,\"*" '{print $3, $4, $2, $5}' aux
+	rm aux
 	
-	case 3)
+	3)	echo "Any	Actor/Actriu		Edat	Pelicula"
+	tail +2 oscar_age_female.csv | sort -k 2 >> aux
+	tail +2 oscar_age_female.csv | sort -k 2 >> aux
+	sort -k 2 aux
+	awk -F "\"*,\"*" '{print $2, $4, $3, $5}' aux
+	rm aux
 	
-	case *)
+	*)
 	
 esac
 
