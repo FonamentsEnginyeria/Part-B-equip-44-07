@@ -1,10 +1,13 @@
 #!/bin/bash
+<<<<<<< HEAD
 
 sortir=0
 
 while [ $sortir -ne 1 ]
 do
 
+=======
+>>>>>>> MENU
 echo "Base de Dades d'actors i actrius guanyador/es de l'Oscar"
 echo "1. Històric d'Oscars."
 echo "2. Qui va guanyar...?"
