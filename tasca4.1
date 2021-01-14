@@ -1,0 +1,49 @@
+#!/bin/bash
+
+rm file1
+
+echo "Vols afegir un actor o actriu"
+echo "1 - ACTOR" 
+echo "2 - ACTRIU" 
+read number 
+
+if [ $number -eq "1" ] 
+then 
+tail +2 oscar_age_male.csv > aux 
+else
+tail +2 oscar_age_female.csv > aux 
+fi
+
+echo "Escriu el nom de l’actor o actriu"
+read nom
+echo "Escriu l’any que l’actor o actriu va guanyar l’Oscar"
+read any
+echo "Escriu l’edat de l’actor o actriu quan va guanyar l’oscar"
+read edat
+echo "Escriu en quina pel·licula l’actor o actriu va guanyar l’Oscar"
+read pelicula
+
+m=0
+let m=$any-1927
+if [ $m -le 0 ]
+then
+	m=1
+fi
+
+anyrepe=`cut -d, -f2 aux | head -$m | tail -1`
+
+numindexfinal=`wc -l < aux`
+let index=$numindexfinal+1
+
+if [ $any -eq "$anyrepe" ]
+then 
+	echo "Aquest any ja existeix"
+else
+	echo "Aquest any no existeix"
+	if [ $any -lt "1928" ] 
+	then
+		echo $index, $any, $edat, $nom, $pelicula >> file1
+		cat aux >> file1
+	fi
+fi
+rm aux
