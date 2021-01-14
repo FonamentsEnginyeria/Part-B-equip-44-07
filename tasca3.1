@@ -1,0 +1,33 @@
+#!/bin/bash
+cat oscar_age_male.csv >> aux
+cat oscar_age_female.csv >> aux
+var=`wc -l < aux`
+
+random=`echo $(($RANDOM%$var+1))`
+#per omplir el echo de la pregunta
+
+peli=`cut -d, -f5 aux | head -$random | tail -1 | sed 's/\"//g'`
+any=`cut -d, -f2 aux | head -$random | tail -1 | sed 's/\"//g'`
+edat=`cut -d, -f3 aux | head -$random | tail -1 | sed 's/\"//g'`
+nom=`cut -d, -f4 aux | head -$random | tail -1 | sed 's/\"//g'`
+
+if [ $random -le 91 ]
+then
+	genere="actor"
+else
+	genere="actriu"
+fi
+
+#pregunta a respondre
+echo "Quin any $nom amb $edat anys va guanyar l’Oscar a millor $genere amb la pel·licula “$peli”..."
+
+read anyintroduit
+
+if [ $anyintroduit -eq $any ]
+then
+	echo "Felicitats, és correcte."
+else
+	echo "T'has equivocat. L'any correcte és $any"
+
+fi
+rm aux
