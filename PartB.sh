@@ -1,14 +1,13 @@
 #!/bin/bash
 
-<<<<<<< HEAD
 sortir=0
 
 while [ $sortir -ne 1 ]
 do
-=======
->>>>>>> MENU
 
+	echo "---------------------------------------------------------------------------------------"
 	echo "Base de Dades d'actors i actrius guanyador/es de l'Oscar"
+	echo "---------------------------------------------------------------------------------------"
 	echo "1. Històric d'Oscars."
 	echo "2. Qui va guanyar...?"
 	echo "3. Ets un expert?"
@@ -24,7 +23,6 @@ do
 	1) 
 	echo "En desenvolupament"
 	echo "---------------------------------------------------------------------------------------"
-	#read -p "$*"
 	echo "Històric d’Oscars"
 	echo "------------------"
 	echo "1.1 Mostrar històric d’Oscars a millor actor (alfabètic). "
@@ -38,23 +36,23 @@ do
 
 		1)	
 		echo "Edat	Actor		Any	Pelicula"
-		tail +2 oscar_age_male.csv | sort -k 4 >> aux
+		tail +2 oscar_age_male | sort -k 4 >> aux
 		awk -F "\"*,\"*" '{print $4, $2, $3, $5}' aux
 		rm aux
-		
+		;;
 		2) 	
 		echo "Actriu		Any	Edat	Pelicula"
-		tail +2 oscar_age_female.csv | sort -k 3 >> aux
-		awk -F "\"*,\"*" '{print $3, $4, $2, $5}' aux
+		tail +2 oscar_age_female | sort -k 3 >> aux
+		awk -F "\"*,\"*" '{print $4, $2, $3, $5}' aux
 		rm aux
-		
+		;;
 		3)	echo "Any	Actor/Actriu		Edat	Pelicula"
-		tail +2 oscar_age_female.csv | sort -k 2 >> aux
-		tail +2 oscar_age_female.csv | sort -k 2 >> aux
+		tail +2 oscar_age_female | sort -k 2 >> aux
+		tail +2 oscar_age_female | sort -k 2 >> aux
 		sort -k 2 aux
 		awk -F "\"*,\"*" '{print $2, $4, $3, $5}' aux
 		rm aux
-		
+		;;
 		*)
 	
 	esac;;
@@ -62,7 +60,6 @@ do
 	2)
 	echo "En desenvolupament"
 	echo "---------------------------------------------------------------------------------------"
-	#read -p "$*"
 	echo "---------------------------------------"
 	echo "Qui va Guanyar ...?           "
 	echo "---------------------------------------"
@@ -79,18 +76,18 @@ do
 		   read any  
 		   i=1
 		   j=1
-		   lin=`wc -l < oscar_age_male.csv`
-		   lin2=`wc -l < oscar_age_female.csv`
+		   lin=`wc -l < oscar_age_male`
+		   lin2=`wc -l < oscar_age_female`
 		   while [ $i -lt $lin ]
 		   do	
-		   	head -$i oscar_age_male.csv | tail -1 | grep $any > file1
+		   	head -$i oscar_age_male | tail -1 | grep $any > file1
 		   	cat file1 >> file2
 		   	let i=i+1		
 		   done
 
 		   while [ $j -lt $lin2 ]
 		   do	
-		   	head -$j oscar_age_female.csv | tail -1 | grep $any > file1
+		   	head -$j oscar_age_female | tail -1 | grep $any > file1
 		   	cat file1 >> file2
 		   	let j=j+1		
 		   done
@@ -112,19 +109,19 @@ do
 		echo "Oscar a millor actriu: $nom2"
 		echo "Edat: $edat2"
 		echo "Pel.lícula: $peli2"
-			   rm file1
-			   rm file2;;
+		rm file1
+		rm file2;;
 
 	  2)
 	  echo "Escriu el nom i el cognom de l´actriu: "
 		read nom cognom
-		lin2=`wc -l < oscar_age_female.csv`
+		lin2=`wc -l < oscar_age_female`
 		j=1
 		#cut -d, -f3 oscar_age_female.csv | tr -d ' " ' >> camp
 
 		while [ $j -lt $lin2 ]
 		   do	
-		   	head -$j oscar_age_female.csv | tail -1 | sed 's/\"//g' | grep $nom | grep $cognom > file1
+		   	head -$j oscar_age_female | tail -1 | sed 's/\"//g' | grep $nom | grep $cognom > file1
 		   	cat file1 >> file2
 		   	let j=j+1		
 		   done
@@ -151,12 +148,12 @@ do
 			  j=1
 			  b=0
 			  a=0
-			  lin=`wc -l < oscar_age_male.csv`
-			  lin2=`wc -l < oscar_age_female.csv`
+			  lin=`wc -l < oscar_age_male`
+			  lin2=`wc -l < oscar_age_female`
 
 			  while [ $i -lt $lin ]
 				   do	
-					   head -$i oscar_age_male.csv | tail -1 | sed 's/\"//g' | grep "$peli" > file1
+					   head -$i oscar_age_male | tail -1 | sed 's/\"//g' | grep "$peli" > file1
 					   cat file1 >> file2
 					   let i=i+1
 
@@ -165,7 +162,7 @@ do
 
 			   while [ $j -lt $lin ]
 				   do	
-					   head -$j oscar_age_female.csv | tail -1 | sed 's/\"//g' | grep "$peli" > file1
+					   head -$j oscar_age_female | tail -1 | sed 's/\"//g' | grep "$peli" > file1
 					   cat file1 >> file3
 					   let j=j+1
 				   done
@@ -201,8 +198,6 @@ do
 			rm file2
 			rm file3
 
-
-
 	 ;;
 		*) 
 		echo "Error";;  
@@ -221,8 +216,8 @@ do
 
 	case $expert in
 		1) 
-		tail +2 oscar_age_male >> aux
-		tail +2 oscar_age_female >> aux
+		cat oscar_age_male >> aux
+		cat oscar_age_female >> aux
 		var=`wc -l < aux`
 
 		random=`echo $(($RANDOM%$var+1))`
@@ -255,8 +250,8 @@ do
 		rm aux;;
 		
 		2)
-		tail +2 oscar_age_male  >> aux
-		tail +2 oscar_age_female >> aux
+		cat oscar_age_male  >> aux
+		cat oscar_age_female >> aux
 		var=`wc -l < aux`
 
 		#tres actors aleatoris, random és el correcte
@@ -340,8 +335,8 @@ do
 		fi;;
 		
 		3)
-		tail +2 oscar_age_male >> aux
-		tail +2 oscar_age_female >> aux
+		cat oscar_age_male > aux
+		cat oscar_age_female > aux
 
 		lt=`wc -l < aux`
 		#linies totals
@@ -512,9 +507,7 @@ do
 		  rm aux
 		  rm file1
 		  rm aux2
-		fi
-		
-						
+		fi			
 		
 		;;
 		
@@ -587,8 +580,7 @@ do
 		rm file1
 		rm aux;;
 		
-		3)
-			
+		3)	
 		echo "Vols modifica la informació d'un actor o actriu?"
 		echo "1 - ACTOR"
 		echo "2 - ACTRIU"
@@ -616,7 +608,7 @@ do
 		numOscars=`wc -l < file1`	
 		num=`cut -d, -f1 file1`
 		echo "Diguem un nou nom i cognom: "
-		read nom2 
+		read nom2 cognom5
 			if [ $nom2 == "=" ]
 				then
 				echo $nom > nomartista
@@ -624,6 +616,7 @@ do
 				#fem això per treure-li les cometes que té de sobres
 				nom2=$nom	
 				#Si l'usuari escriu un "=" llavors el nom final serà l'anterior
+				rm nomartista
 			fi
 						
 		echo "Diguem un nou any: "
@@ -650,10 +643,9 @@ do
 				#fem això per treure-li les cometes que té de sobres
 				peli2=$peli	
 				#Si l'usuari escriu un "=" llavors la pel.lícula final serà l'anterior
+				rm nomartista			
 			fi
 
-			
-			
 			awk -F, '$2 !~ /'"$any"'/ {print $0}' aux > aux2
 			#treballem el fitxer per borrar la linia corresponent
 
@@ -663,7 +655,6 @@ do
 			nom3=`sed 's/^/"/;s/$/"/' nombre`
 			peli3=`sed 's/^/"/;s/$/"/' pelicu`
 
-			
 			echo "$num, $any2," $edat2", $nom3, $peli3" > file4
 			
 		   	m=0
@@ -718,6 +709,6 @@ do
 	;;
 
 	esac
-	clear
+	#clear
 
 done
