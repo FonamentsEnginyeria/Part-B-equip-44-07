@@ -508,7 +508,6 @@ do
 		  rm file1
 		  rm aux2
 		fi			
-		
 		;;
 		
 		2)
@@ -616,7 +615,7 @@ do
 				#fem això per treure-li les cometes que té de sobres
 				nom2=$nom	
 				#Si l'usuari escriu un "=" llavors el nom final serà l'anterior
-				rm nomartista
+				#rm nomartista
 			fi
 						
 		echo "Diguem un nou any: "
@@ -643,7 +642,7 @@ do
 				#fem això per treure-li les cometes que té de sobres
 				peli2=$peli	
 				#Si l'usuari escriu un "=" llavors la pel.lícula final serà l'anterior
-				rm nomartista			
+				#rm nomartista			
 			fi
 
 			awk -F, '$2 !~ /'"$any"'/ {print $0}' aux > aux2
