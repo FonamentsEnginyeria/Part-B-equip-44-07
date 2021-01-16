@@ -11,7 +11,6 @@ read sistema
 
 case $sistema in
 	1) 
-	rm file1
 
 	echo "Vols afegir un actor o actriu"
 	echo "1 - ACTOR" 
@@ -20,11 +19,12 @@ case $sistema in
 
 	if [ $number -eq "1" ] 
 	then 
-	tail +2 oscar_age_male.csv > aux 
+	cat oscar_age_male > aux 
 	else
-	tail +2 oscar_age_female.csv > aux 
+	cat oscar_age_female > aux 
 	fi
-
+	
+		
 	echo "Escriu el nom de l’actor o actriu"
 	read nom
 	echo "Escriu l’any que l’actor o actriu va guanyar l’Oscar"
@@ -34,44 +34,66 @@ case $sistema in
 	echo "Escriu en quina pel·licula l’actor o actriu va guanyar l’Oscar"
 	read pelicula
 
+	#m=0
+	#let m=$any-1927
+	#if [ $m -le 0 ]
+	#then
+	#	m=1
+	#fi
+	lin=`wc -l < aux`
+	
 	m=0
-	let m=$any-1927
-	if [ $m -le 0 ]
-	then
-		m=1
-	fi
+	echo "0, 0" > file6
+	while [ $m -lt $lin ]
+	do
+		head -$m aux | tail -1 | grep $any >> file6
+	        let m=m+1     
+	done
 
-	anyrepe=`cut -d, -f2 aux | head -$m | tail -1`
+	anyrepe=`cut -d, -f2 file6 | tail -1`
 
+			       
 	numindexfinal=`wc -l < aux`
 	let index=$numindexfinal+1
 
-	if [ $any -eq "$anyrepe" ]
+	if [ $any == $anyrepe ]
 	then 
 		echo "Aquest any ja existeix"
+		rm file6
 	else
 		echo "Aquest any no existeix"
-		if [ $any -lt "1928" ] 
+		echo $index, $any, $edat, $nom, $pelicula > file1
+		cat file1 >> aux
+		sort -k2 -t, -n aux > aux2
+		cat aux2
+		if [ $number -eq "1" ]
 		then
-			echo $index, $any, $edat, $nom, $pelicula >> file1
-			cat aux >> file1
+			cat aux2 > oscar_age_male
+		else
+			cat aux2 > oscar_age_female
 		fi
+	  rm aux
+	  rm file1
+	  rm aux2
 	fi
-	rm aux
+	
+					
+	
 	;;
+	
 	2)
 	echo "-----------------------------------------------------------"
 	echo "Vols donar de baixa algun actor o actrius?"
 	echo "1 - ACTOR"
 	echo "2 - ACTRIU"
 
-	read number
+	read num
 
-	if [ $number -eq "1" ]
+	if [ $num -eq "1" ]
 	then
-	    tail +2 oscar_age_male.csv >> aux
+	    cat oscar_age_male > aux
 	else    
-	    tail +2 oscar_age_female.csv >> aux
+	    cat oscar_age_female > aux
 	fi    
 
 	echo "-----------------------------------------------------------"
@@ -102,28 +124,29 @@ case $sistema in
 	#awk `$2 -eq $any {print $2","$3","$4","$5}` aux >> fitxer
 	#cat fitxer
 
-	oscarany=0
-	let orscarany=$any-1927
+	#oscarany=0
+	#let orscarany=$any-1927
 	echo "Vols eliminar el registre del fitxer? S/N?" 
 	read resposta
-
 
 	if [ $resposta == "S" ] || [ $resposta == "s" ];
 	then 
 		echo "Suprimint..."
 		#sed -i $oscarany file 2    
-		let num="$any-1927"
-	    	let resta="$lin-$num"
-	    	let suma="$num-1"
-	    	head -$suma aux > oscar_age
-	    	tail -$resta aux >> oscar_age
-	    	#cat oscar_age
-
+		#treballem el fitxer per borrar la linia corresponent
+		awk -F, '$2 !~ /'"$any"'/ {print $0}' aux > aux2
+		cat aux2
+		if [ $num -eq "1" ]
+		then
+	  	  cat aux2 > oscar_age_male
+		else    
+	   	  cat aux2 > oscar_age_female
+		fi    
 	else 
 		echo "No s'ha suprimit el registre"
 	fi
 
-
+	rm aux2
 	rm file1
 	rm aux;;
 	
@@ -132,13 +155,12 @@ case $sistema in
 	echo "Vols modifica la informació d'un actor o actriu?"
 	echo "1 - ACTOR"
 	echo "2 - ACTRIU"
-	echo "Escriu la teva opció amb majuscules"
 	read OPCIO
-	if [ $OPCIO == "ACTOR" ]
+	if [ $OPCIO -eq "1" ]
 	then
-		tail +2 oscar_age_male.csv > aux
+		cat oscar_age_male > aux
 	else	
-		tail +2 oscar_age_female.csv > aux
+		cat oscar_age_female > aux
 	fi	
 
 	echo "Diguem un any"
@@ -157,7 +179,7 @@ case $sistema in
 	numOscars=`wc -l < file1`	
 	num=`cut -d, -f1 file1`
 	echo "Diguem un nou nom i cognom: "
-	read nom2
+	read nom2 
 		if [ $nom2 == "=" ]
 			then
 			echo $nom > nomartista
@@ -194,11 +216,9 @@ case $sistema in
 		fi
 
 		
-		let suma="$num-1"
-		let resta="$lin-$num"
-		head -$suma aux > oscar_age
+		
+		awk -F, '$2 !~ /'"$any"'/ {print $0}' aux > aux2
 		#treballem el fitxer per borrar la linia corresponent
-		tail -$resta aux >> oscar_age
 
 		echo $nom2 > nombre
 		echo $peli2 > pelicu
@@ -207,45 +227,51 @@ case $sistema in
 		peli3=`sed 's/^/"/;s/$/"/' pelicu`
 
 		
-		let num2="$any2-1927"
-		echo "$num2, $any2," $edat2", $nom3, $peli3" > file4
+		echo "$num, $any2," $edat2", $nom3, $peli3" > file4
 		
 	   	m=0
+		echo "0, 0" > file6
+		while [ $m -lt $lin ]
+		do
+		head -$m aux2 | tail -1 | grep $any2 >> file6
+	      	  let m=m+1     
+		done
+
+		anyrepe=`cut -d, -f2 file6 | tail -1`
 				
-			anyrepe=`cut -d, -f2 oscar_age | head -$num2 | tail -1`
+		echo $anyrepe
+		echo $any2	
 		
 				
-				if [ $any2 -eq $anyrepe ]
-				then 
-					echo "Aquest any ja existeix"
-				else
-				       let suma2="$num2-1"
-				       linewaux=`wc -l < oscar_age`
-				       let resta2="$linnewaux-$num2"
-					       if [ $num2 -lt "89" ]
-					       then
-					       head -$suma2 oscar_age > oscars
-					       cat file4 >> oscars
-					       tail -$resta oscar_age >> oscars
-					       cat oscars
-					       else
-					       head -$suma2 oscar_age > oscars
-					       cat file4 >> oscars
-					       cat oscars
-					       fi
-					       
-				     rm oscars
-					
-				fi
+		if [ $any2 -eq $anyrepe ]
+		then 
+			echo "Aquest any ja existeix"
+			cat aux > aux3
+		else
+		      echo "Registre editat"
+		      cat file4 >> aux2
+		      sort -k2 -t, -n aux2 > aux3
+	       	cat aux3	
+		fi
+		
+	if [ $OPCIO -eq "1" ] 
+	then 
+	 cat aux3 > oscar_age_male 
+	else
+	 cat aux3 > oscar_age_female 
+	fi	
 
 	#amb aquest if sabem si hem de classificar la informació entrada per	l'usuari
-	  
+	rm file6 
 	rm file1
 	rm file4
+	rm aux2
+	rm aux3
+	rm aux
 	#rm fitxeru	   
 	rm pelicu
 	rm nombre
 	;;
-	*)
+	*) ;;
 	
 esac
