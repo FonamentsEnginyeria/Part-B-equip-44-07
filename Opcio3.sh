@@ -11,8 +11,8 @@ read expert
 
 case $expert in
 	1) 
-	tail +2 oscar_age_male.csv >> aux
-	tail +2 oscar_age_female.csv >> aux
+	tail +2 oscar_age_male >> aux
+	tail +2 oscar_age_female >> aux
 	var=`wc -l < aux`
 
 	random=`echo $(($RANDOM%$var+1))`
@@ -45,8 +45,8 @@ case $expert in
 	rm aux;;
 	
 	2)
-	tail +2 oscar_age_male.csv  >> aux
-	tail +2 oscar_age_female.csv >> aux
+	tail +2 oscar_age_male  >> aux
+	tail +2 oscar_age_female >> aux
 	var=`wc -l < aux`
 
 	#tres actors aleatoris, random és el correcte
@@ -130,8 +130,8 @@ case $expert in
 	fi;;
 	
 	3)
-	tail +2 oscar_age_male.csv >> aux
-	tail +2 oscar_age_female.csv >> aux
+	tail +2 oscar_age_male >> aux
+	tail +2 oscar_age_female >> aux
 
 	lt=`wc -l < aux`
 	#linies totals
