@@ -484,8 +484,11 @@ do
 
 		anyrepe=`cut -d, -f2 file6 | tail -1`
 
-				       
-		numindexfinal=`wc -l < aux`
+		sort -k1 -t, -n aux | tail -1 > auux	       
+		numindexfinal=`cut -d, -f1 auux`
+		echo $numindexfinal
+		
+		
 		let index=$numindexfinal+1
 
 		if [ $any == $anyrepe ]
@@ -494,6 +497,10 @@ do
 			rm file6
 		else
 			echo "Aquest any no existeix"
+			echo $nom > nombre
+			echo $pelicula > pelicu
+			nom=`sed 's/^/"/;s/$/"/' nombre`
+			peli=`sed 's/^/"/;s/$/"/' pelicu`
 			echo $index, $any, $edat, $nom, $pelicula > file1
 			cat file1 >> aux
 			sort -k2 -t, -n aux > aux2
@@ -506,6 +513,7 @@ do
 			fi
 		  rm aux
 		  rm file1
+		  rm auux
 		  rm aux2
 		fi			
 		;;
@@ -607,8 +615,11 @@ do
 		numOscars=`wc -l < file1`	
 		num=`cut -d, -f1 file1`
 		echo "Diguem un nou nom i cognom: "
-		read nom2 cognom5
-			if [ $nom2 == "=" ]
+		read nom2 
+		echo $nom2 > fitxerbo
+		nom4=`cut -d" " -f1 fitxerbo`
+		echo $nom4
+			if [ $nom4 == "=" ]
 				then
 				echo $nom > nomartista
 				nom=`sed 's/\"//g' nomartista`
