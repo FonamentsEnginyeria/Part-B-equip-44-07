@@ -500,7 +500,7 @@ do
 			echo $nom > nombre
 			echo $pelicula > pelicu
 			nom=`sed 's/^/"/;s/$/"/' nombre`
-			peli=`sed 's/^/"/;s/$/"/' pelicu`
+			pelicula=`sed 's/^/"/;s/$/"/' pelicu`
 			echo $index, $any, $edat, $nom, $pelicula > file1
 			cat file1 >> aux
 			sort -k2 -t, -n aux > aux2
@@ -539,7 +539,7 @@ do
 		read any
 		i=1
 			   lin=`wc -l < aux`
-			   while [ $i -lt $lin ]
+			   while [ $i -le $lin ]
 			   do    
 			       head -$i aux | tail -1 | grep $any >> file1
 			       let i=i+1        
@@ -603,7 +603,7 @@ do
 		read any
 		i=1
 		lin=`wc -l < aux`
-			while [ $i -lt $lin ]
+			while [ $i -le $lin ]
 			do	
 			  head -$i aux | tail -1 | grep $any >> file1
 			  let i=i+1		
