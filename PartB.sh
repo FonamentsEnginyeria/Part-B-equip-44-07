@@ -228,8 +228,9 @@ do
 		any=`cut -d, -f2 aux | head -$random | tail -1 | sed 's/\"//g'`
 		edat=`cut -d, -f3 aux | head -$random | tail -1 | sed 's/\"//g'`
 		nom=`cut -d, -f4 aux | head -$random | tail -1 | sed 's/\"//g'`
+		compare=`wc -l < oscar_age_male`
 
-		if [ $random -le 91 ]
+		if [ $random -le $compare ]
 		then
 		    genere="actor"
 		else
