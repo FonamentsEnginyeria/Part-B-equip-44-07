@@ -350,7 +350,8 @@ do
 		nom=`cut -d, -f4 aux | head -$ran1 | tail -1 | sed 's/\"//g'`
 		edat=`cut -d, -f3 aux | head -$ran1 | tail -1 | sed  's/\"//g'`
 		any=`cut -d, -f2 aux | head -$ran1 | tail -1 | sed 's/\"//g'`
-		lin=90
+		lin=`wc -l < oscar_age_male`
+		
 		if [ $ran1 -le $lin ] 
 		then
 			genero="actor"
@@ -468,12 +469,7 @@ do
 		echo "Escriu en quina pel·licula l’actor o actriu va guanyar l’Oscar"
 		read pelicula
 
-		#m=0
-		#let m=$any-1927
-		#if [ $m -le 0 ]
-		#then
-		#	m=1
-		#fi
+		
 		lin=`wc -l < aux`
 		
 		m=0
