@@ -46,7 +46,8 @@ do
 		awk -F "\"*,\"*" '{print $4, $2, $3, $5}' aux
 		rm aux
 		;;
-		3)	echo "Any	Actor/Actriu		Edat	Pelicula"
+		3)	
+		echo "Any	Actor/Actriu		Edat	Pelicula"
 		tail +2 oscar_age_female | sort -k 2 >> aux
 		tail +2 oscar_age_female | sort -k 2 >> aux
 		sort -k 2 aux
@@ -618,7 +619,7 @@ do
 		read nom2 
 		echo $nom2 > fitxerbo
 		nom4=`cut -d" " -f1 fitxerbo`
-		echo $nom4
+		#echo $nom4
 			if [ $nom4 == "=" ]
 				then
 				echo $nom > nomartista
